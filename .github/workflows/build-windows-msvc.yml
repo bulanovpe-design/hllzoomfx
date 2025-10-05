@@ -16,7 +16,7 @@ jobs:
       - name: Setup MSVC environment
         run: |
           echo "Call vcvarsall to setup MSVC environment"
-          call "%VSINSTALLDIR%\\VC\\Auxiliary\\Build\\vcvarsall.bat" x64
+          & "$env:VSINSTALLDIR\VC\Auxiliary\Build\vcvarsall.bat" x64
 
       - name: Build with cl
         run: |
