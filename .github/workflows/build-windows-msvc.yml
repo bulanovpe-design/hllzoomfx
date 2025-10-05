@@ -1,0 +1,29 @@
+name: Build (MSVC)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC environment
+        run: |
+          echo "Call vcvarsall to setup MSVC environment"
+          call "%VSINSTALLDIR%\\VC\\Auxiliary\\Build\\vcvarsall.bat" x64
+
+      - name: Build with cl
+        run: |
+          cl /EHsc main.cpp /Fe:ZoomOverlay.exe /link user32.lib gdi32.lib
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZoomOverlay-windows-msvc
+          path: ZoomOverlay.exe
